@@ -39,7 +39,7 @@
     "@aws-sdk/s3-request-presigner": "3.712.0",
     "@casl/ability": "^6.5.0",
     "@copilotkit/react-core": "^1.5.19",
-    "@copilotkit/react-textarea": "^1.5.19",
+    "@copilotkit/react-textarea": "^1.10.6",
     "@copilotkit/react-ui": "^1.5.19",
     "@copilotkit/runtime": "^1.4.7",
     "@hookform/resolvers": "^3.3.4",

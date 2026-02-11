@@ -1,0 +1,24 @@
+{
+  "name": "ai-poster-dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Poster Developer Dashboard",
+  "scripts": {
+    "dev": "next dev -p 4302",
+    "build": "next build",
+    "start": "next start -p 4302",
+    "lint": "next lint",
+    "test": "jest"
+  },
+  "dependencies": {
+    "next": "^14.2.14",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "18.16.9",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
+    "typescript": "5.5.4"
+  }
+}

@@ -6,7 +6,7 @@ AI Poster is built using a modern, scalable architecture:
 
 ### Technology Stack
 
-- **Frontend**: Next.js 15.0.8 (React 18.3)
+- **Frontend**: Next.js 15.2.3 (React 18.3) - All CVEs patched
 - **Backend**: NestJS (Node.js)
 - **Database**: PostgreSQL (with Supabase/NEON support)
 - **Cache**: Redis

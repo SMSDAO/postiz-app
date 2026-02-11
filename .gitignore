@@ -57,3 +57,24 @@ Thumbs.db
 # ignore Secrets folder
 .secrets/
 libraries/plugins/src/plugins.ts
+
+# AI Poster specific
+.env.local
+.env.*.local
+.vercel
+apps/ai-poster-*/.next
+apps/ai-poster-*/out
+apps/ai-poster-*/build
+apps/ai-poster-*/dist
+
+# Logs
+*.log
+logs/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.tsbuildinfo
+tsconfig.tsbuildinfo

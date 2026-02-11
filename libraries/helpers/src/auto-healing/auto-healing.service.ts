@@ -25,6 +25,7 @@ export class AutoHealingService {
   private checkInterval: number;
   private retryAttempts: number;
   private retryDelay: number;
+  private intervalId?: NodeJS.Timeout;
 
   constructor(config?: {
     checkInterval?: number;
@@ -76,7 +77,7 @@ export class AutoHealingService {
     await this.runAllHealthChecks();
 
     // Set up periodic health checks
-    setInterval(async () => {
+    this.intervalId = setInterval(async () => {
       if (this.isMonitoring) {
         await this.runAllHealthChecks();
       }
@@ -88,6 +89,10 @@ export class AutoHealingService {
    */
   stopMonitoring(): void {
     this.isMonitoring = false;
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = undefined;
+    }
     console.log('Auto-healing service stopped');
   }
 

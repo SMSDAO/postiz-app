@@ -143,8 +143,13 @@ export function getPooledConnectionString(url: string): string {
   
   if (provider === 'supabase') {
     // Supabase uses connection pooler on port 6543
-    const pooledUrl = url.replace(':5432/', ':6543/');
-    return pooledUrl;
+    try {
+      const urlObj = new URL(url);
+      urlObj.port = '6543';
+      return urlObj.toString();
+    } catch {
+      return url; // Return original if URL parsing fails
+    }
   }
   
   return url;

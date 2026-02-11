@@ -296,15 +296,12 @@ export class AutoConfigService {
   }
 
   /**
-   * Generate a random secret
+   * Generate a cryptographically secure random secret
    */
   private generateRandomSecret(length: number): string {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-    let secret = '';
-    for (let i = 0; i < length; i++) {
-      secret += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return secret;
+    // Use Node.js crypto for cryptographically secure random generation
+    const crypto = require('crypto');
+    return crypto.randomBytes(length).toString('base64').slice(0, length);
   }
 
   /**

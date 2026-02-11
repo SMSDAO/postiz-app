@@ -116,7 +116,7 @@ postiz-app/
 ## Technology Stack
 
 ### Frontend
-- **Next.js 14**: React framework with App Router
+- **Next.js 15.0.8**: React framework with App Router (Security patched)
 - **React 18.3**: UI library
 - **Tailwind CSS**: Utility-first CSS
 - **TypeScript**: Type safety

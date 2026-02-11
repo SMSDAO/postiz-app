@@ -150,6 +150,7 @@ Features:
 - Environment variable protection
 - JWT authentication setup
 - SSL enforcement
+- **Next.js 15.0.8**: Patched DoS vulnerability (CVE fix)
 
 ## 📦 File Structure
 

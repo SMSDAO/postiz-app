@@ -2,18 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "name": "postiz-ai-poster",
-  "builds": [
-    {
-      "src": "apps/frontend/package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    }
-  ],
+  "framework": "nextjs",
+  "installCommand": "npm ci && npm run prisma-generate",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "outputDirectory": "dist/apps/frontend/.next",
   "env": {
     "DATABASE_URL": "@database_url",
     "REDIS_URL": "@redis_url",
@@ -29,18 +22,7 @@
       "IS_GENERAL": "true"
     }
   },
-  "functions": {
-    "apps/backend/src/main.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
   "regions": ["iad1"],
-  "framework": "nextjs",
-  "installCommand": "npm ci && npm run prisma-generate",
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "outputDirectory": "dist/apps/frontend/.next",
   "headers": [
     {
       "source": "/(.*)",

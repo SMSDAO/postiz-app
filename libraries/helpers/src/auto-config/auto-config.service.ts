@@ -3,6 +3,8 @@
  * Automatically detects and configures application settings
  */
 
+import * as crypto from 'crypto';
+
 export interface ConfigurationItem {
   key: string;
   value: string;
@@ -45,6 +47,13 @@ export class AutoConfigService {
         source: process.env.JWT_SECRET ? 'env' : 'default',
         required: true,
         description: 'JWT secret for authentication',
+      },
+      {
+        key: 'SESSION_SECRET',
+        value: process.env.SESSION_SECRET || '',
+        source: process.env.SESSION_SECRET ? 'env' : 'default',
+        required: false,
+        description: 'Session secret for cookie encryption',
       },
       {
         key: 'FRONTEND_URL',
@@ -300,7 +309,6 @@ export class AutoConfigService {
    */
   private generateRandomSecret(length: number): string {
     // Use Node.js crypto for cryptographically secure random generation
-    const crypto = require('crypto');
     return crypto.randomBytes(length).toString('base64').slice(0, length);
   }
 

@@ -1,0 +1,46 @@
+{
+  "name": "ai-poster-dev",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ai-poster-dev/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/ai-poster-dev"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/ai-poster-dev"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ai-poster-dev:build",
+        "dev": true,
+        "port": 4302
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ai-poster-dev:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "ai-poster-dev:build:production",
+          "dev": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

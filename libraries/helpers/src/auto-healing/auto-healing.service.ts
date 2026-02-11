@@ -20,8 +20,10 @@ export interface HealingAction {
 
 export class AutoHealingService {
   private healthChecks: Map<string, HealthCheck> = new Map();
+  private checkFunctions: Map<string, () => Promise<{ healthy: boolean; message?: string; responseTime?: number }>> = new Map();
   private healingActions: Map<string, HealingAction> = new Map();
   private isMonitoring: boolean = false;
+  private isRunningChecks: boolean = false;
   private checkInterval: number;
   private retryAttempts: number;
   private retryDelay: number;
@@ -50,8 +52,8 @@ export class AutoHealingService {
       lastCheck: new Date(),
     });
 
-    // Store the check function for later use
-    (this as any)[`check_${name}`] = checkFn;
+    // Store the check function in a type-safe Map
+    this.checkFunctions.set(name, checkFn);
   }
 
   /**
@@ -76,9 +78,9 @@ export class AutoHealingService {
     // Run initial health checks
     await this.runAllHealthChecks();
 
-    // Set up periodic health checks
+    // Set up periodic health checks with overlap prevention
     this.intervalId = setInterval(async () => {
-      if (this.isMonitoring) {
+      if (this.isMonitoring && !this.isRunningChecks) {
         await this.runAllHealthChecks();
       }
     }, this.checkInterval);
@@ -100,12 +102,20 @@ export class AutoHealingService {
    * Run all registered health checks
    */
   private async runAllHealthChecks(): Promise<void> {
-    for (const [name, check] of this.healthChecks.entries()) {
-      try {
-        const checkFn = (this as any)[`check_${name}`];
-        if (!checkFn) continue;
+    // Prevent overlapping health check runs
+    if (this.isRunningChecks) {
+      return;
+    }
 
-        const result = await checkFn();
+    this.isRunningChecks = true;
+    
+    try {
+      for (const [name] of this.healthChecks.entries()) {
+        try {
+          const checkFn = this.checkFunctions.get(name);
+          if (!checkFn) continue;
+
+          const result = await checkFn();
         
         this.healthChecks.set(name, {
           name,
@@ -130,6 +140,9 @@ export class AutoHealingService {
         });
       }
     }
+    } finally {
+      this.isRunningChecks = false;
+    }
   }
 
   /**
@@ -139,8 +152,13 @@ export class AutoHealingService {
     console.log(`Attempting to heal ${serviceName}...`);
 
     // Get relevant healing actions, sorted by priority
+    // Match actions that include the service name or are generic/catch-all
     const actions = Array.from(this.healingActions.values())
-      .filter(action => action.name.includes(serviceName) || action.name === 'generic')
+      .filter(action => 
+        action.name.toLowerCase().includes(serviceName.toLowerCase()) || 
+        action.name === 'generic' ||
+        action.name.includes('restart-connection') // Include default restart action
+      )
       .sort((a, b) => b.priority - a.priority);
 
     for (let attempt = 1; attempt <= this.retryAttempts; attempt++) {

@@ -449,28 +449,25 @@ For scheduled tasks:
 
 ### GitHub Actions
 
-Already configured in `.github/workflows/build.yaml`:
+The repository includes GitHub Actions workflows for CI/CD:
 
 ```yaml
-name: Deploy to Vercel
+name: Build
 on:
   push:
     branches: [main]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run build
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
 ```
+
+For Vercel deployment integration, you can add the `amondnet/vercel-action` to your workflow. See the [Vercel Action documentation](https://github.com/amondnet/vercel-action) for details.
 
 ## Cost Optimization
 

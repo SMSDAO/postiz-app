@@ -94,7 +94,7 @@ cd apps/ai-poster-dev && npm run dev
 
 ```typescript
 // Auto-detection from connection string
-import { getDatabaseConfig } from '@/libraries/helpers/src/database.config';
+import { getDatabaseConfig } from '@gitroom/helpers/database.config';
 
 const config = getDatabaseConfig();
 // Returns appropriate config based on provider
@@ -105,7 +105,7 @@ const config = getDatabaseConfig();
 For serverless deployments:
 
 ```typescript
-import { getPooledConnectionString } from '@/libraries/helpers/src/database.config';
+import { getPooledConnectionString } from '@gitroom/helpers/database.config';
 
 const pooledUrl = getPooledConnectionString(process.env.DATABASE_URL);
 ```
@@ -119,7 +119,7 @@ The auto-healing service monitors system health and automatically recovers from 
 ### Usage
 
 ```typescript
-import { AutoHealingService } from '@/libraries/helpers/src/auto-healing/auto-healing.service';
+import { AutoHealingService } from '@gitroom/helpers/auto-healing/auto-healing.service';
 
 // Initialize service
 const healingService = new AutoHealingService({
@@ -172,7 +172,7 @@ Automatically detects and configures application settings.
 ### Usage
 
 ```typescript
-import { AutoConfigService, runAutoConfigCheck } from '@/libraries/helpers/src/auto-config/auto-config.service';
+import { AutoConfigService, runAutoConfigCheck } from '@gitroom/helpers/auto-config/auto-config.service';
 
 // Run configuration check
 const result = await runAutoConfigCheck();
@@ -411,8 +411,7 @@ GET /api/metrics
 ### Database Connection Issues
 
 ```typescript
-// Test database connection
-import { testDatabaseConnection, getDatabaseConfig } from '@/libraries/helpers/src/database.config';
+import { testDatabaseConnection, getDatabaseConfig } from '@gitroom/helpers/database.config';
 
 const config = getDatabaseConfig();
 const result = await testDatabaseConnection(config);

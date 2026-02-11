@@ -36,7 +36,7 @@ export function detectDatabaseProvider(url: string): 'postgres' | 'supabase' | '
   if (url.includes('supabase.co')) {
     return 'supabase';
   }
-  if (url.includes('neon.tech') || url.includes('neon.') || url.includes('sslmode=require')) {
+  if (url.includes('neon.tech') || url.includes('.neon.')) {
     return 'neon';
   }
   return 'postgres';
@@ -81,7 +81,9 @@ export function getDatabaseConfig(): DatabaseConfig | SupabaseConfig | NeonConfi
         type: 'neon',
         pooling: true,
         sslMode: 'require',
-        ssl: { rejectUnauthorized: false },
+        ssl: process.env.NEON_DISABLE_SSL_VERIFY === 'true' 
+          ? { rejectUnauthorized: false }
+          : true,
       } as NeonConfig;
 
     default:
@@ -143,10 +145,15 @@ export function getPooledConnectionString(url: string): string {
   
   if (provider === 'supabase') {
     // Supabase uses connection pooler on port 6543
+    // Only modify if it looks like a Supabase pooler URL (contains .pooler.supabase.co or similar)
     try {
       const urlObj = new URL(url);
-      urlObj.port = '6543';
-      return urlObj.toString();
+      // Check if this is a pooler-compatible URL
+      if (urlObj.hostname.includes('pooler.supabase.co') || urlObj.hostname.includes('.supabase.co')) {
+        urlObj.port = '6543';
+        return urlObj.toString();
+      }
+      return url; // Return original if not pooler-compatible
     } catch {
       return url; // Return original if URL parsing fails
     }

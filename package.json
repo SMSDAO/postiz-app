@@ -44,7 +44,7 @@
     "@copilotkit/runtime": "^1.4.7",
     "@hookform/resolvers": "^3.3.4",
     "@langchain/community": "^0.3.19",
-    "@langchain/core": "^0.3.26",
+    "@langchain/core": "^0.3.80",
     "@langchain/langgraph": "^0.2.34",
     "@langchain/openai": "^0.3.16",
     "@mantine/core": "^5.10.5",

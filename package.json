@@ -41,7 +41,7 @@
     "@copilotkit/react-core": "^1.10.6",
     "@copilotkit/react-textarea": "^1.5.19",
     "@copilotkit/react-ui": "^1.5.19",
-    "@copilotkit/runtime": "^1.4.7",
+    "@copilotkit/runtime": "^1.10.6",
     "@hookform/resolvers": "^3.3.4",
     "@langchain/community": "^0.3.19",
     "@langchain/core": "^0.3.26",
